@@ -1,0 +1,167 @@
+﻿---
+---
+
+<nav class="navbar">
+  <div class="navbar-inner container">
+    <a href="/" class="navbar-logo">
+      <img src="/images/logo/logo.png?v=2" alt="Arista Studio" />
+    </a>
+    <ul class="navbar-links">
+      <li><a href="#servicios">Servicios</a></li>
+      <li><a href="#portafolio">Portafolio</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <button class="navbar-toggle" aria-label="Menu">
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1.25rem 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .navbar-solid {
+    background: rgba(249, 248, 246, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--borde);
+  }
+
+  .navbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .navbar-logo img {
+    height: 80px;
+    width: auto;
+    max-width: none;
+    transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .navbar-solid .navbar-logo img {
+    height: 44px;
+  }
+
+  .navbar-links {
+    display: flex;
+    gap: 2.5rem;
+  }
+
+  .navbar-links a {
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto-secundario);
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .navbar-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--acento);
+    transition: width 0.3s ease;
+  }
+
+  .navbar-links a:hover {
+    color: var(--texto);
+  }
+
+  .navbar-links a:hover::after {
+    width: 100%;
+  }
+
+  .navbar-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+
+  .navbar-toggle span {
+    width: 24px;
+    height: 1.5px;
+    background: var(--texto);
+    transition: all 0.3s ease;
+  }
+
+  @media (max-width: 768px) {
+    .navbar-links {
+      display: flex;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .navbar-links.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .navbar-links a {
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+    }
+
+    .navbar-toggle { display: flex; }
+    .navbar-logo img { height: 56px; max-width: 140px; }
+    .navbar-solid .navbar-logo img { height: 36px; max-width: 100px; }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector('.navbar-toggle');
+  const links = document.querySelector('.navbar-links');
+
+  toggle?.addEventListener('click', () => {
+    links?.classList.toggle('open');
+  });
+
+  links?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      links.classList.remove('open');
+    });
+  });
+</script>

@@ -1,0 +1,188 @@
+---
+import projects from '../data/projects.json';
+import GalleryModal from './GalleryModal.astro';
+
+const proyectos = projects.map((p, i) => ({ ...p, index: i }));
+
+const categoryLabels: Record<string, string> = {
+  'renders-interiores': 'Render Interior',
+  'renders-exteriores': 'Render Exterior',
+  'interiorismo': 'Interiorismo',
+};
+---
+
+<section id="portafolio" class="portafolio">
+  <div class="container">
+    <p class="section-label reveal-left">Portafolio</p>
+    <h2 class="section-title reveal-left reveal-delay-1">Proyectos</h2>
+
+    <div class="portafolio-filtros reveal-scale reveal-delay-2">
+      <button class="filtro active" data-filter="renders-interiores">Render Interior</button>
+      <button class="filtro" data-filter="renders-exteriores">Render Exterior</button>
+      <button class="filtro" data-filter="interiorismo">Interiorismo</button>
+      <button class="filtro" data-filter="todos">Todos</button>
+    </div>
+
+    <div class="portafolio-grid">
+      {proyectos.map((proyecto, index) => {
+        const delay = (index % 3) + 1;
+        return (
+          <div 
+            class={`proyecto-card reveal-scale reveal-delay-${delay}`}
+            data-categoria={proyecto.categoria}
+            data-index={index}
+          >
+            <div class="proyecto-imagen">
+              <img 
+                src={proyecto.imagen} 
+                alt={proyecto.titulo}
+                loading="lazy"
+              />
+            </div>
+            <div class="proyecto-info">
+              <span class="proyecto-categoria">{categoryLabels[proyecto.categoria]}</span>
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</section>
+
+<GalleryModal projects={proyectos} />
+
+<style>
+  .portafolio {
+    padding: var(--section-padding) 0;
+    overflow: hidden;
+  }
+
+  .portafolio-filtros {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .filtro {
+    background: none;
+    border: none;
+    color: var(--texto-terciario);
+    font-family: var(--font-principal);
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s ease, transform 0.2s ease;
+  }
+
+  .filtro:hover {
+    transform: translateY(-1px);
+  }
+
+  .filtro::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--acento);
+    transition: width 0.3s ease;
+  }
+
+  .filtro:hover,
+  .filtro.active {
+    color: var(--texto);
+  }
+
+  .filtro.active::after {
+    width: 100%;
+  }
+
+  .portafolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .proyecto-card {
+    display: block;
+    position: relative;
+  }
+
+  .proyecto-card.hidden {
+    display: none;
+  }
+
+  .proyecto-imagen {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+
+  .proyecto-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .proyecto-card:hover .proyecto-imagen img {
+    transform: scale(1.05);
+  }
+
+  .proyecto-info {
+    padding: 1rem 0 0.25rem;
+  }
+
+  .proyecto-categoria {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--acento);
+    display: block;
+  }
+
+  @media (max-width: 1024px) {
+    .portafolio-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 640px) {
+    .portafolio-grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const filtros = document.querySelectorAll('.filtro');
+  const cards = document.querySelectorAll('.proyecto-card');
+  const modal = document.getElementById('gallery-modal');
+
+  function showCategory(cat: string, max: number) {
+    const matching = Array.from(cards).filter(c => c.getAttribute('data-categoria') === cat);
+    cards.forEach(card => card.classList.add('hidden'));
+    matching.reverse().slice(0, max).forEach(card => card.classList.remove('hidden'));
+  }
+
+  showCategory('renders-interiores', 6);
+
+  filtros.forEach(filtro => {
+    filtro.addEventListener('click', () => {
+      const filter = filtro.getAttribute('data-filter');
+
+      if (filter === 'todos') {
+        modal?.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        return;
+      }
+
+      filtros.forEach(f => f.classList.remove('active'));
+      filtro.classList.add('active');
+
+      showCategory(filter, 6);
+    });
+  });
+</script>

@@ -1,0 +1,68 @@
+﻿---
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="/images/logo/logo.png?v=2" alt="Arista Studio" class="footer-logo" />
+      </div>
+      <div class="footer-links">
+        <a href="https://www.instagram.com/aristastudio_" target="_blank" rel="noopener">Instagram</a>
+        <a href="mailto:proyectos@aristastudio.com.mx" target="_blank" rel="noopener">Email</a>
+        <a href="https://wa.me/525534138397" target="_blank" rel="noopener">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding: 3rem 0;
+    border-top: 1px solid var(--borde);
+  }
+
+  .footer-grid {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-logo {
+    height: 64px;
+    width: auto;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--texto-secundario);
+    transition: color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+  }
+
+  .footer-links a:hover {
+    color: var(--acento);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 768px) {
+    .footer-grid {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

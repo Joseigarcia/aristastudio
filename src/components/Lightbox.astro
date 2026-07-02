@@ -1,0 +1,90 @@
+---
+---
+
+<div id="lightbox" class="lightbox">
+  <button class="lightbox-close" aria-label="Cerrar">&times;</button>
+  <img class="lightbox-img" src="" alt="" />
+</div>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    cursor: pointer;
+  }
+
+  .lightbox.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .lightbox-img {
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    cursor: default;
+    transform: scale(0.95);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lightbox.open .lightbox-img {
+    transform: scale(1);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.5rem;
+    transition: opacity 0.2s ease;
+    z-index: 1;
+  }
+
+  .lightbox-close:hover {
+    opacity: 0.6;
+  }
+</style>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = lightbox?.querySelector('.lightbox-img') as HTMLImageElement;
+  const lightboxClose = lightbox?.querySelector('.lightbox-close');
+
+  function closeLightbox() {
+    lightbox?.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  lightboxClose?.addEventListener('click', closeLightbox);
+
+  lightbox?.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  (window as any).openLightbox = (src: string, alt: string) => {
+    if (lightboxImg) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt;
+    }
+    lightbox?.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+</script>
