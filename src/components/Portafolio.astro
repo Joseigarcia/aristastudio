@@ -30,6 +30,8 @@ const categoryLabels: Record<string, string> = {
           <div 
             class={`proyecto-card reveal-scale reveal-delay-${delay}`}
             data-categoria={proyecto.categoria}
+            data-imagen={proyecto.imagen}
+            data-titulo={proyecto.titulo}
             data-index={index}
           >
             <div class="proyecto-imagen">
@@ -166,6 +168,14 @@ const categoryLabels: Record<string, string> = {
     cards.forEach(card => card.classList.add('hidden'));
     matching.reverse().slice(0, max).forEach(card => card.classList.remove('hidden'));
   }
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const img = card.getAttribute('data-imagen');
+      const titulo = card.getAttribute('data-titulo');
+      if (img) window.openLightbox(img, titulo || '');
+    });
+  });
 
   showCategory('renders-interiores', 6);
 
